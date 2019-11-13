@@ -1,3 +1,4 @@
+var moment = require('moment');
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
@@ -33,5 +34,11 @@ BookInstanceSchema
         return '/catalog/bookinstance/' + this._id;
     });
 
-// 导出 BookInstancec 模型
+BookInstanceSchema
+    .virtual('due_back_formatted')
+    .get(function () {
+        return moment(this.due_back).format('YYYY-MM-DD');
+    });
+
+// 导出 BookInstance 模型
 module.exports = mongoose.model('BookInstance', BookInstanceSchema);

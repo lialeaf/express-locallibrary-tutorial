@@ -1,0 +1,26 @@
+extends layout
+
+block content
+
+  h1 图书ID: #{bookinstance._id}
+
+  p #[strong 图书名称:] 
+    a(href=bookinstance.book.url) #{bookinstance.book.title}
+  p #[strong 出版信息:] #{bookinstance.imprint}
+
+  p #[strong 馆藏状态:] 
+    if bookinstance.status=='可供借阅'
+      span.text-success #{bookinstance.status}
+    else if bookinstance.status=='馆藏维护'
+      span.text-danger #{bookinstance.status}
+    else
+      span.text-warning #{bookinstance.status} 
+      
+  if bookinstance.status!='可供借阅'
+    p #[strong 预期可用日期:] #{bookinstance.due_back_formatted}
+    
+  hr
+  p
+    a(href=bookinstance.url+'/delete') Delete a bookinstance.
+  p
+    a(href=bookinstance.url+'/update') Update a bookinstance.

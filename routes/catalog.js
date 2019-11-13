@@ -10,7 +10,7 @@ const book_instance_controller = require('../controllers/bookinstanceController'
 /// 藏书路由 ///
 
 // GET 获取藏书编目主页
-router.get('/', book_controller.index);
+router.get('/', book_controller.index); //This actually maps to /catalog/ because we import the route with a /catalog prefix
 
 // GET 请求添加新的藏书。注意此项必须位于显示藏书的路由（使用了 id）之前。
 router.get('/book/create', book_controller.book_create_get);
