@@ -7,13 +7,17 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var catalogRouter = require('./routes/catalog');
+var compression = require('compression');
+var helmet = require('helmet'); // 使用 Helmet 避免被常见漏洞侵袭
 
 var app = express();
+
+app.use(helmet());
 
 // 设置 Mongoose 连接
 const mongoose = require('mongoose');
 // const mongoDB = '在此插入数据库_URL';
-const uri = "mongodb+srv://local_library:lycyxm88@cluster0-dgqgd.azure.mongodb.net/test?retryWrites=true&w=majority";
+const uri = process.env.MONGODB_URI || "mongodb+srv://local_library:lycyxm88@cluster0-dgqgd.azure.mongodb.net/test?retryWrites=true&w=majority";
 const mongoDB = uri;
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
@@ -30,6 +34,8 @@ app.use(express.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
+
+app.use(compression());  // compress all routes
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
